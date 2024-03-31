@@ -17,7 +17,7 @@ namespace RentCars.Models
         public RentCarUser User { get; set; }
 
         [Required]
-        public Car car { get; set; }
+        public Car Car { get; set; }
 
     }
 }
