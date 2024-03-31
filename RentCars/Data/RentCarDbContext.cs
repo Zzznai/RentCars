@@ -2,6 +2,8 @@
 using Microsoft.EntityFrameworkCore;
 using RentCars.Commons.Enums;
 using RentCars.Models;
+using System.Reflection.Emit;
+using System.Security.Claims;
 
 namespace RentCars.Data
 {
@@ -21,6 +23,20 @@ namespace RentCars.Data
                 .Entity<Car>()
                 .Property(c => c.EngineType)
                 .HasConversion(e => e.ToString(), e => (EngineType)Enum.Parse(typeof(EngineType), e));
+
+            builder.Entity<RentCarUser>()
+                .HasIndex(u => u.Email)
+                .IsUnique();
+
+            builder.Entity<RentCarUser>()
+                .HasIndex(u => u.UserName)
+                .IsUnique();
+
+            builder.Entity<RentCarUser>()
+                .HasIndex(u => u.UniqueCitinzenshipNumber)
+            .IsUnique();
+
+            builder.Entity<Car>().Property(car => car.RentalPricePerDay).HasPrecision(2, 2);
 
             base.OnModelCreating(builder);
         }

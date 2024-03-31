@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using RentCars.Data;
 
@@ -11,9 +12,11 @@ using RentCars.Data;
 namespace RentCars.Migrations
 {
     [DbContext(typeof(RentCarDbContext))]
-    partial class RentCarDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240331144734_AddUniqueFieldsForUser")]
+    partial class AddUniqueFieldsForUser
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -188,8 +191,7 @@ namespace RentCars.Migrations
                         .HasColumnType("int");
 
                     b.Property<decimal>("RentalPricePerDay")
-                        .HasPrecision(2, 2)
-                        .HasColumnType("decimal(2,2)");
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<int>("Year")
                         .HasColumnType("int");
