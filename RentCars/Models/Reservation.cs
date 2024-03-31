@@ -13,6 +13,8 @@ namespace RentCars.Models
         [Required]
         public DateTime EndDate { get; set; }
 
+        public decimal RentalSum { get; set; }
+
         [Required]
         public RentCarUser User { get; set; }
 

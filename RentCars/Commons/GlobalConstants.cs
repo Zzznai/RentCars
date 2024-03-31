@@ -5,6 +5,5 @@
         public const string AdministratorRoleName = "Administrator";
 
         public const string UserRoleName = "NormalUser";
-
     }
 }

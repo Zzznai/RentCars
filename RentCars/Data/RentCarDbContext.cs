@@ -38,6 +38,8 @@ namespace RentCars.Data
 
             builder.Entity<Car>().Property(car => car.RentalPricePerDay).HasPrecision(2, 2);
 
+            builder.Entity<Reservation>().Property(r => r.RentalSum).HasPrecision(2, 2);
+
             base.OnModelCreating(builder);
         }
     }
