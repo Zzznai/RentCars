@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using RentCars.Commons.Enums;
+using System.ComponentModel.DataAnnotations;
 
 namespace RentCars.Models
 {
@@ -14,6 +15,8 @@ namespace RentCars.Models
         public DateTime EndDate { get; set; }
 
         public decimal RentalSum { get; set; }
+
+        public ReservationStatus Status { get; set; }
 
         [Required]
         public RentCarUser User { get; set; }

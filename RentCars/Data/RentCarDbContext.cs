@@ -24,6 +24,11 @@ namespace RentCars.Data
                 .Property(c => c.EngineType)
                 .HasConversion(e => e.ToString(), e => (EngineType)Enum.Parse(typeof(EngineType), e));
 
+            builder
+                .Entity<Reservation>()
+                .Property(r => r.Status)
+                .HasConversion(e => e.ToString(), e => (ReservationStatus)Enum.Parse(typeof(ReservationStatus), e));
+
             builder.Entity<RentCarUser>()
                 .HasIndex(u => u.Email)
                 .IsUnique();
