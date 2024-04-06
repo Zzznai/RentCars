@@ -25,7 +25,8 @@ namespace RentCars.ViewModels
         [Range(1, 16)]
         public int PassengerCapacity { get; set; }
 
-        public string? Description { get; set; }
+        [Required]
+        public string Description { get; set; }
 
         [Required]
         [Range(0, double.MaxValue)]

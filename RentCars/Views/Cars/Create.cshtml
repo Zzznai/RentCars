@@ -1,10 +1,6 @@
 ﻿@model CarCreateViewModel
 
-@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+
 <div class="site-wrap" id="home-section">
 
     <!-- Header Section -->
@@ -15,14 +11,6 @@
                     <div class="site-logo">
                         <a href="admin_index.html"><strong>CarRental</strong></a>
                     </div>
-                </div>
-                <div class="col-9 text-right">
-                    <span class="d-inline-block d-lg-none"><a href="#" class="site-menu-toggle js-menu-toggle py-5"><span class="icon-menu h3 text-black"></span></a></span>
-                    <nav class="site-navigation text-right ml-auto d-none d-lg-block" role="navigation">
-                        <ul class="site-menu main-menu js-clone-nav ml-auto">
-                            <li><a href="cars.html" class="nav-link">Go back</a></li>
-                        </ul>
-                    </nav>
                 </div>
             </div>
         </div>
@@ -67,11 +55,11 @@
                                 <div class="form-group row">
                                     <label for="engine" class="col-sm-3 col-form-label">Engine:</label>
                                     <div class="col-sm-9">
-                                        <select asp-for="EngineType" class="form-control" id="engine" name="engine" required>
-                                            <option value="petrol">Petrol</option>
-                                            <option value="diesel">Diesel</option>
-                                            <option value="electric">Electric</option>
-                                            <option value="hybrid">Hybrid</option>
+                                        <select asp-for="EngineType" class="form-control" required>
+                                            <option value="Petrol">Petrol</option>
+                                            <option value="Diesel">Diesel</option>
+                                            <option value="Electric">Electric</option>
+                                            <option value="Hybrid">Hybrid</option>
                                         </select>
                                     </div>
                                     <span asp-validation-for="EngineType" class="text-danger"></span>

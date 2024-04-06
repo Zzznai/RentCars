@@ -24,8 +24,7 @@ namespace RentCars.Controllers
         }
 
         [HttpPost]
-        [Route("/delete/{id}")]
-        [ValidateAntiForgeryToken]
+        [Route("/users/delete/{id}")]
         public async Task<IActionResult> Delete(string id)
         {
             var user = await userManager.FindByIdAsync(id);
@@ -36,6 +35,7 @@ namespace RentCars.Controllers
             }
 
             var result = await userManager.DeleteAsync(user);
+            
 
             if (result.Succeeded)
             {
@@ -50,6 +50,12 @@ namespace RentCars.Controllers
 
                 return RedirectToAction("Index");
             }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Delete()
+        {
+            return RedirectToAction("Create");
         }
 
         [HttpGet]

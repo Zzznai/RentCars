@@ -47,8 +47,8 @@
                                 <p>@car.Description</p>
                                 <div class="text-center">
                                     <button type="button" class="btn btn-success btn-md" onclick="window.location.href='editcar.html'">Edit</button>
-                                    <button type="button" class="btn btn-info btn-md" onclick="window.location.href='carrents.html'">See Rents</button>
-                                    <button type="button" class="btn btn-danger btn-md">Delete</button>
+                                    <button type="button" class="btn btn-info btn-md" onclick="PostData(@car.Id)">See Rents</button>
+                                    <button class="btn btn-danger btn-md" onclick="deleteCar(@car.Id)">Delete</button>
                                 </div>
                             </div>
                         </div>
@@ -57,7 +57,21 @@
             }
         </div>
         <div class="text-center">
-            <button type="button" class="btn btn-primary mb-4" onclick="window.location.href='addcar.html'">Add Car</button>
+            <button type="button" class="btn btn-primary mb-4" onclick="window.location.href='@Url.Action("Create","Cars")'">Add Car</button>
         </div>
     </div>
 </div>
+
+@section Scripts {
+    <script>
+        function deleteCar(id) {
+            $.ajax({
+                type: "POST",
+                url: `/cars/delete/${id}`,
+                success: function (result) {
+                    window.location.reload();
+                }
+            })
+        }
+    </script>
+}

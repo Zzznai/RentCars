@@ -63,7 +63,7 @@
                                 {
                                     <li><a asp-action="AdminIndex" asp-controller="Home" class="nav-link">Home</a></li>
                                     <li><a asp-action="Index" asp-controller="Users" class="nav-link">Users</a></li>
-                                    <li><a href="cars.html" class="nav-link">Cars</a></li>
+                                    <li><a asp-action="Index" asp-controller="Cars" class="nav-link">Cars</a></li>
                                     <li><a href="rents.html" class="nav-link">Rents</a></li>
                                 }
                                 @if (User.Identity.IsAuthenticated)

@@ -30,7 +30,7 @@ namespace RentCars.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create(CarCreateViewModel carModel)
+        public async Task<IActionResult> CreateAsync(CarCreateViewModel carModel)
         {
             if (!ModelState.IsValid)
             {
@@ -41,7 +41,8 @@ namespace RentCars.Controllers
             {
                 var uploadParams = new ImageUploadParams
                 {
-                    File = new FileDescription(carModel.Image.FileName, carModel.Image.OpenReadStream())
+                    File = new FileDescription(carModel.Image.FileName, carModel.Image.OpenReadStream()),
+                    
                 };
 
                 var result = this.cloudinary.Upload(uploadParams);
@@ -60,8 +61,8 @@ namespace RentCars.Controllers
                     ImageUrl = imageUrl.OriginalString
                 };
 
-                this.dbContext.Cars.Add(car);
-                this.dbContext.SaveChanges();
+                await this.dbContext.Cars.AddAsync(car);
+                await this.dbContext.SaveChangesAsync();
             }
 
             return RedirectToAction("Index");
@@ -72,6 +73,23 @@ namespace RentCars.Controllers
         {
             var cars=this.dbContext.Cars.ToList();
             return View(cars);
+        }
+
+        [HttpPost]
+        [Route("cars/delete/{id}")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var car = this.dbContext.Cars.FirstOrDefault(x => x.Id == id);
+
+            if (car == null)
+            {
+                return NotFound();
+            }
+
+            this.dbContext.Remove(car);
+            await this.dbContext.SaveChangesAsync();
+
+            return RedirectToAction("Index");
         }
     }
 }
