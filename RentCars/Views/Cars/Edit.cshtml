@@ -1,0 +1,92 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+<!-- Hero Section -->
+<div class="hero inner-page" style="background-image: url('images/hero_1_a.jpg');">
+    <div class="container">
+        <div class="row align-items-end">
+            <div class="col-lg-5">
+                <div class="intro">
+                    <h1 class="text-black"><strong>Edit Car</strong></h1>
+                    <div class="custom-breadcrumbs text-black"><a href="cars.html">Cars</a> <span class="mx-2">/</span> <strong>Edit Car</strong></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- User Management Section -->
+<div class="site-section">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-7">
+                <div class="card">
+                    <div class="card-body">
+                        <form id="userForm" method="post">
+                            <div class="form-group row">
+                                <label for="brand" class="col-sm-3 col-form-label">Brand:</label>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control" id="brand" name="brand" required>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="model" class="col-sm-3 col-form-label">Model:</label>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control" id="model" name="model" required>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="engine" class="col-sm-3 col-form-label">Engine:</label>
+                                <div class="col-sm-9">
+                                    <select class="form-control" id="engine" name="engine" required>
+                                        <option value="petrol">Petrol</option>
+                                        <option value="diesel">Diesel</option>
+                                        <option value="electric">Electric</option>
+                                        <option value="hybrid">Hybrid</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="image" class="col-sm-3 col-form-label">Upload Image:</label>
+                                <div class="col-sm-9">
+                                    <input type="file" class="form-control-file" id="image" name="image" accept="image/*" required>
+                                    <small class="form-text text-muted">Please select an image file.</small>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="year" class="col-sm-3 col-form-label">Year:</label>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control" id="year" name="year" required>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="PassengerCapacity" class="col-sm-3 col-form-label">Passenger Capacity:</label>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control" id="PassengerCapacity" name="PassengerCapacity" required>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="capacity" class="col-sm-3 col-form-label">Capacity:</label>
+                                <div class="col-sm-9">
+                                    <input type="number" class="form-control" id="capacity" name="capacity" required>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="RentalPricePerDay" class="col-sm-3 col-form-label">Rental Price per Day:</label>
+                                <div class="col-sm-9">
+                                    <input type="price" class="form-control" id="RentalPricePerDay" name="RentalPricePerDay" required>
+                                </div>
+                            </div>
+                            <div class="form-group text-center">
+                                <button type="submit" class="btn btn-primary btn-submit">Submit</button>
+                                <button type="button" class="btn btn-primary btn-cancel" onclick="window.location.href='cars.html'">Cancel</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
