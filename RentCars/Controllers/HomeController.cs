@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using RentCars.Commons;
 using RentCars.Models;
 using System.Diagnostics;
 
@@ -14,6 +16,16 @@ namespace RentCars.Controllers
         }
 
         public IActionResult Index()
+        {
+            if (User.IsInRole(GlobalConstants.AdministratorRoleName))
+            {
+                return RedirectToAction("AdminIndex");
+            }
+            return View();
+        }
+
+        [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
+        public IActionResult AdminIndex()
         {
             return View();
         }
