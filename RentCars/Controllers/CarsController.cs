@@ -66,5 +66,12 @@ namespace RentCars.Controllers
 
             return RedirectToAction("Index");
         }
+
+        [HttpGet]
+        public IActionResult Index()
+        {
+            var cars=this.dbContext.Cars.ToList();
+            return View(cars);
+        }
     }
 }
