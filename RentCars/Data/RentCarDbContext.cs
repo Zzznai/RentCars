@@ -41,9 +41,9 @@ namespace RentCars.Data
                 .HasIndex(u => u.UniqueCitinzenshipNumber)
             .IsUnique();
 
-            builder.Entity<Car>().Property(car => car.RentalPricePerDay).HasPrecision(2, 2);
+            builder.Entity<Car>().Property(car => car.RentalPricePerDay).HasPrecision(8, 2);
 
-            builder.Entity<Reservation>().Property(r => r.RentalSum).HasPrecision(2, 2);
+            builder.Entity<Reservation>().Property(r => r.RentalSum).HasPrecision(8, 2);
 
             base.OnModelCreating(builder);
         }

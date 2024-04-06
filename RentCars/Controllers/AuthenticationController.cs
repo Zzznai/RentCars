@@ -88,6 +88,12 @@ namespace RentCars.Controllers
                     return View(userModel);
                 }
 
+                if (userManager.Users.Any(u => u.Email == userModel.Email))
+                {
+                    ModelState.AddModelError(string.Empty, "A user with the same email already exists.");
+                    return View(userModel);
+                }
+
                 var user = new RentCarUser()
                 {
                     UserName = userModel.Username,
