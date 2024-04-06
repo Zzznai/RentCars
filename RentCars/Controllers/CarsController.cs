@@ -2,6 +2,7 @@
 using CloudinaryDotNet.Actions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using RentCars.Commons;
 using RentCars.Data;
 using RentCars.Models;
@@ -41,8 +42,7 @@ namespace RentCars.Controllers
             {
                 var uploadParams = new ImageUploadParams
                 {
-                    File = new FileDescription(carModel.Image.FileName, carModel.Image.OpenReadStream()),
-                    
+                    File = new FileDescription(carModel.Image.FileName, carModel.Image.OpenReadStream()),   
                 };
 
                 var result = this.cloudinary.Upload(uploadParams);
@@ -91,5 +91,78 @@ namespace RentCars.Controllers
 
             return RedirectToAction("Index");
         }
+
+        [HttpGet]
+        [Route("cars/edit/{id}")]
+        public async Task<IActionResult> Edit(int id)
+        {
+            var car = await this.dbContext.Cars.FirstOrDefaultAsync(c => c.Id == id);
+
+            if (car == null)
+            {
+                return NotFound();
+            }
+
+            var carModel = new CarEditViewModel()
+            {
+                Brand = car.Brand,
+                Model = car.Model,
+                EngineType = car.EngineType,
+                Year = car.Year,
+                PassengerCapacity = car.PassengerCapacity,
+                Description = car.Description,
+                RentalPricePerDay = car.RentalPricePerDay,
+            };
+
+            return View(carModel);
+        }
+
+        [HttpPost]
+        [Route("cars/edit/{id}")]
+        public async Task<IActionResult> Edit(int id, CarEditViewModel carModel)
+        {
+            if (ModelState.IsValid)
+            {
+                var car = await this.dbContext.Cars.FirstOrDefaultAsync(c => c.Id == id);
+
+                if (car == null)
+                {
+                    return NotFound();
+                }
+
+                car.Brand = carModel.Brand;
+                car.PassengerCapacity = carModel.PassengerCapacity;
+                car.Model = carModel.Model;
+                car.EngineType = carModel.EngineType;
+                car.RentalPricePerDay = carModel.RentalPricePerDay;
+                car.Year = carModel.Year;
+                car.Description = carModel.Description;
+
+                if (carModel.Image != null)
+                {
+                    var uploadParams = new ImageUploadParams
+                    {
+                        File = new FileDescription(carModel.Image.FileName, carModel.Image.OpenReadStream()),
+                    };
+
+                    var result = this.cloudinary.Upload(uploadParams);
+
+                    var imageUrl = result.Url;
+
+                    car.ImageUrl = imageUrl.OriginalString;
+                  
+                }
+
+                this.dbContext.Cars.Update(car);
+                await this.dbContext.SaveChangesAsync();
+
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                return View(carModel);
+            }
+        }
+
     }
 }
