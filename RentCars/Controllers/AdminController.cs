@@ -22,6 +22,9 @@ namespace RentCars.Controllers
             var reservations = this.dbContext.Reservations
                 .Include(c => c.Car)
                 .Include(u => u.User)
+                .OrderBy(r => r.StartDate)
+                .ThenBy(r => r.EndDate)
+                .ThenBy(r=>r.Car.Brand)
                 .ToList();
 
             return View(reservations);

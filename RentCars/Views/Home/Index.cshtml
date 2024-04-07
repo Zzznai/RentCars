@@ -160,6 +160,7 @@
 @section Scripts {
 
     <script src="~/js/bootstrap-datetimepicker.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.30.1/moment.min.js"></script>
 
     <script>
         var startDateInput = $('#cf-3');
@@ -178,7 +179,14 @@
 
         // Update end datepicker's start date when start date changes
         startDateInput.on('changeDate', function (e) {
-            endDateInput.datepicker('setStartDate', e.date);
+            var selectedStartDate = new Date(e.date);
+            var selectedEndDate = new Date(selectedStartDate);
+            selectedEndDate.setDate(selectedStartDate.getDate() + 1); // Set end date to be one day ahead
+
+            endDateInput.datepicker('setDate', selectedEndDate); // Update end datepicker's value
+            endDateInput.datepicker('setStartDate', selectedEndDate); // Update end datepicker's start date
+
+            endDateInput.val(moment(selectedEndDate).format('DD-MM-YYYY')); // Assuming you're using moment.js for date formatting
         });
 
     </script>

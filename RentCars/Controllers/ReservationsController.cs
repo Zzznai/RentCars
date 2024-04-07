@@ -24,8 +24,8 @@ namespace RentCars.Controllers
         [Route("reservations/reserve/{carId}")]
         public async Task<IActionResult> Reserve(int carId, ReservationCreateViewModel reservationModel)
         {
-            var car = await this.dbContext.Cars.FirstOrDefaultAsync(c=>c.Id == carId);
-            var user = await this.dbContext.Users.FirstOrDefaultAsync(u=>u.UserName.Equals(User.Identity.Name));
+            var car = await this.dbContext.Cars.FirstOrDefaultAsync(c => c.Id == carId);
+            var user = await this.dbContext.Users.FirstOrDefaultAsync(u => u.UserName.Equals(User.Identity.Name));
 
             if (car == null)
             {
@@ -49,10 +49,15 @@ namespace RentCars.Controllers
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            var reservations = this.dbContext.Reservations.Where(r=>r.User.UserName.Equals(User.Identity.Name))
-                .Include(c=>c.Car)
-                .Include(u => u.User)
+            var reservations = this.dbContext.Reservations
+            .Where(r => r.User.UserName.Equals(User.Identity.Name))
+                .Include(r => r.Car)
+                .Include(r => r.User)
+                .OrderBy(r => r.StartDate)
+                .ThenBy(r => r.Car.Brand)
                 .ToList();
+
+
 
             return this.View(reservations);
         }

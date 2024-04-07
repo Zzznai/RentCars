@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Routing;
+using Microsoft.EntityFrameworkCore;
 using RentCars.Commons;
 using RentCars.Commons.Enums;
 using RentCars.Data;
@@ -30,29 +32,26 @@ namespace RentCars.Controllers
                 return RedirectToAction("AdminIndex");
             }
 
-            var cars = new List<Car>();
-
             var sessionStartDate = HttpContext.Session.GetString("searchStartDate");
             var sessionEndDate = HttpContext.Session.GetString("searchEndDate");
 
-            if (sessionStartDate != null && sessionEndDate!=null)
+            if (sessionStartDate != null && sessionEndDate != null)
             {
-                DateTime startDate = DateTime.Parse(sessionStartDate);
-                DateTime endDate = DateTime.Parse(sessionEndDate);
-
-                cars = rentCarDbContext.Cars
-           .Where(car => !car.Reservations.Any(reservation =>
-               (reservation.Status == ReservationStatus.Denied || reservation.Status == ReservationStatus.Waiting) &&
-               (reservation.StartDate <= endDate && reservation.EndDate >= startDate)))
-           .ToList();
-                searchModel.StartDate = startDate;
-                searchModel.EndDate = endDate;
+                searchModel.StartDate = DateTime.Parse(sessionStartDate);
+                searchModel.EndDate = DateTime.Parse(sessionEndDate);
+            }
+            else
+            {
+                searchModel.StartDate = DateTime.Now.Date;
+                searchModel.EndDate = searchModel.StartDate.AddDays(1);
             }
 
-            searchModel.Cars = cars;
+
+            searchModel.Cars = GetAllAvailableCars(searchModel.StartDate, searchModel.EndDate);
 
             return View(searchModel);
         }
+
 
         [HttpPost]
         public IActionResult Index(SearchViewModel searchModel)
@@ -62,17 +61,22 @@ namespace RentCars.Controllers
                 return RedirectToAction("AdminIndex");
             }
 
-            var cars = this.rentCarDbContext.Cars
-            .Where(r => !r.Reservations.Any(reservation =>
-                (reservation.StartDate <= searchModel.EndDate && reservation.EndDate >= searchModel.StartDate)))
-            .ToList();
-
             HttpContext.Session.SetString("searchStartDate", searchModel.StartDate.ToString());
             HttpContext.Session.SetString("searchEndDate", searchModel.EndDate.ToString());
 
-            searchModel.Cars = cars;
+            searchModel.Cars = GetAllAvailableCars(searchModel.StartDate, searchModel.EndDate);
 
             return View(searchModel);
+        }
+
+        private List<Car> GetAllAvailableCars(DateTime searchStartDate,  DateTime searchEndDate)
+        {
+            var carsWithNoReservations = rentCarDbContext.Cars
+               .Where(car => !car.Reservations.Any(r => r.StartDate >= searchStartDate &&
+                        r.EndDate <= searchEndDate && r.Status != ReservationStatus.Denied))
+               .ToList();
+
+            return carsWithNoReservations;
         }
 
         [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
