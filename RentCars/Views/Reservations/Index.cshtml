@@ -1,0 +1,72 @@
+﻿@model IEnumerable<Reservation>
+
+
+<div class="hero inner-page" style="background-image: url('/images/hero_1_a.jpg');">
+
+    <div class="container">
+        <div class="row align-items-end ">
+            <div class="col-lg-5">
+
+                <div class="intro">
+                    <h1><strong>My Reservations</strong></h1>
+                    <div class="custom-breadcrumbs"><a href="index.html">Home</a> <span class="mx-2">/</span> <strong>My reservations</strong></div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="site-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 mb-5 mb-lg-0 order-lg-2">
+                <h2>All Rentals</h2>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Car (model and brand)</th>
+                            <th>Rental Date</th>
+                            <th>Return Date</th>
+                            <th>Total price</th>
+                            <th>Status</th> <!-- Fixed typo here -->
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var reservation in Model)
+                        {
+                            <tr>
+                                <td>@reservation.Car.Brand @reservation.Car.Model</td>
+                                <td>@String.Format("{0:dd-MM-yyyy}", @reservation.StartDate)</td>
+                                <td>@String.Format("{0:dd-MM-yyyy}", @reservation.EndDate)</td>
+
+                                <td>@reservation.RentalSum.ToString("C")</td>
+
+                                @if (@reservation.Status == ReservationStatus.Confirmed)
+                                {
+                                    <td><span class="badge badge-success">Confirmed</span></td>
+                                }
+                                else if (@reservation.Status == ReservationStatus.Waiting)
+                                {
+                                    <td><span class="badge badge-warning">Waiting...</span></td>
+                                }
+                                else if (@reservation.Status == ReservationStatus.Denied)
+                                {
+                                    <td><span class="badge badge-error">Denied</span></td>
+                                }
+                            </tr>
+                        }
+                        
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+    </div>

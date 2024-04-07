@@ -12,6 +12,13 @@ builder.Services.AddDbContext<RentCarDbContext>(options => options.UseSqlServer(
 builder.Services.AddIdentity<RentCarUser, IdentityRole>().AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<RentCarDbContext>();
 
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(60);
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+});
+
 var app = builder.Build();
 
 using (var scope = app.Services.CreateScope())
@@ -39,5 +46,7 @@ app.UseAuthorization();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
+
+app.UseSession();
 
 app.Run();
