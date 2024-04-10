@@ -53,9 +53,6 @@
                                 </div>
                                 <div>
                                     <p>@car.Description</p>
-                                    <p class="d-flex justify-content-center">
-                                        <button type="button" class="btn btn-primary btn-md" onclick="window.location.href='@Url.Action("carsdatesinfo", "Cars", new { id = @car.Id })'">See Available dates</button>
-                                    </p>
                                 </div>
                             </div>
                         </div>
@@ -68,7 +65,7 @@
                     <div class="row align-items-center">
                         <div class="col-lg-7 mb-4 mb-md-0">
                             <h2 class="mb-0 text-white">Liked a car and you want to rent it?</h2>
-                            <p class="mb-0 opa-7">See what cars are available for your selected time period.</p>
+                            <p class="mb-0 opa-7">See what cars are available for your selected time period </p>
                         </div>
                         <div class="col-lg-5 text-md-right">
                             <a asp-controller="Home" asp-action="Index" class="btn btn-primary btn-white btn-md">Rent Now!</a>

@@ -56,8 +56,20 @@ namespace RentCars.Controllers
                 .OrderBy(r => r.StartDate)
                 .ThenBy(r => r.Car.Brand)
                 .ToList();
+            return this.View(reservations);
+        }
 
-
+        [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
+        [HttpGet]
+        public async Task<IActionResult> CarReservations(int id)
+        {
+            var reservations = this.dbContext.Reservations
+            .Where(c => c.Car.Id==id)
+                .Include(r => r.Car)
+                .Include(r => r.User)
+                .OrderBy(r => r.StartDate)
+                .ThenBy(r=>r.User.UserName)
+                .ToList();
 
             return this.View(reservations);
         }
