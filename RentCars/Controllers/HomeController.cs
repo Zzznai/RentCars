@@ -72,9 +72,10 @@ namespace RentCars.Controllers
         private List<Car> GetAllAvailableCars(DateTime searchStartDate,  DateTime searchEndDate)
         {
             var carsWithNoReservations = rentCarDbContext.Cars
-               .Where(car => !car.Reservations.Any(r => r.StartDate >= searchStartDate &&
-                        r.EndDate <= searchEndDate && r.Status != ReservationStatus.Denied))
-               .ToList();
+         .Where(car => !car.Reservations.Any(r =>
+             (r.StartDate <= searchEndDate && r.EndDate >= searchStartDate) && // Check for overlapping reservations
+             r.Status != ReservationStatus.Denied)) // Exclude denied reservations
+         .ToList();
 
             return carsWithNoReservations;
         }

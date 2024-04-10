@@ -10,7 +10,7 @@ using System;
 
 namespace RentCars.Tests
 {
-    public class ReservationsTests
+    public class CarTests
     {
         [Fact]
         public void AllReservations_ReturnsViewWithReservations()

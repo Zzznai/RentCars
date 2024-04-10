@@ -28,6 +28,7 @@ namespace RentCars.ViewModels
 
         [Required(ErrorMessage = "The Email field is required.")]
         [EmailAddress(ErrorMessage = "Invalid Email Address.")]
+        [RegularExpression(@"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$", ErrorMessage = "Invalid Email Address.")]
         public string Email { get; set; }
 
         [DataType(DataType.Password)]
