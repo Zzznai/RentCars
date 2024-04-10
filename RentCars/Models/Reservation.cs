@@ -1,4 +1,5 @@
 ﻿using RentCars.Commons.Enums;
+using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace RentCars.Models
@@ -8,21 +9,20 @@ namespace RentCars.Models
         [Key]
         public int Id { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "The Start Date field is required.")]
         public DateTime StartDate { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "The End Date field is required.")]
         public DateTime EndDate { get; set; }
 
         public decimal RentalSum { get; set; }
 
         public ReservationStatus Status { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "The User field is required.")]
         public RentCarUser User { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "The Car field is required.")]
         public Car Car { get; set; }
-
     }
 }
