@@ -1,5 +1,86 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+﻿@model IEnumerable<Car>
+
+<div class="hero inner-page" style="background-image: url('/images/hero_1_a.jpg');">
+    <div class="container">
+        <div class="row align-items-end">
+            <div class="col-lg-5">
+                <div class="intro">
+                    <h1><strong>Listings</strong></h1>
+                    <div class="custom-breadcrumbs"><a href="#">Home</a> <span class="mx-2">/</span> <strong>Listings</strong></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="site-section bg-light">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-7">
+                <h2 class="section-heading"><strong>Cars Listing</strong></h2>
+                <p class="mb-5">All available cars on our site:</p>
+            </div>
+        </div>
+
+        @if (Model.Any())
+        {
+            <div class="row">
+                @foreach (var car in Model)
+                {
+                    <div class="col-md-6 col-lg-4 mb-4">
+                        <div class="listing d-block align-items-stretch">
+                            <div class="listing-img h-100 mr-4">
+                                <img src="@car.ImageUrl" alt="Image" class="img-fluid">
+                            </div>
+                            <div class="listing-contents h-100">
+                                <h3>@($"{car.Brand} {car.Model}")</h3> <!-- Combine brand and model -->
+                                <div class="rent-price">
+                                    <strong>@car.RentalPricePerDay.ToString("C")</strong><span class="mx-1">/</span>day
+                                </div>
+                                <div class="d-block d-md-flex mb-3 border-bottom pb-3">
+                                    <div class="listing-feature pr-4">
+                                        <span class="caption">Year:</span>
+                                        <span class="number">@car.Year</span>
+                                    </div>
+                                    <div class="listing-feature pr-4">
+                                        <span class="caption">EngineType:</span>
+                                        <span class="text">@car.EngineType</span>
+                                    </div>
+                                    <div class="listing-feature pr-4">
+                                        <span class="caption">Passengers:</span>
+                                        <span class="number">@car.PassengerCapacity</span>
+                                    </div>
+                                </div>
+                                <div>
+                                    <p>@car.Description</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+
+            <div class="site-section bg-primary py-5">
+                <div class="container">
+                    <div class="row align-items-center">
+                        <div class="col-lg-7 mb-4 mb-md-0">
+                            <h2 class="mb-0 text-white">Liked a car and you want to rent it?</h2>
+                            <p class="mb-0 opa-7">See what cars are available for your selected time period.</p>
+                        </div>
+                        <div class="col-lg-5 text-md-right">
+                            <a asp-controller="Home" asp-action="Index" class="btn btn-primary btn-white btn-md">Rent Now!</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="row">
+                <div class="col-md-12">
+                    <p>No available cars at the moment.</p>
+                </div>
+            </div>
+        }
+    </div> <!-- Close container -->
+</div> <!-- Close site-section -->

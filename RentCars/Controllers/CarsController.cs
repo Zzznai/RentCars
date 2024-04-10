@@ -75,6 +75,14 @@ namespace RentCars.Controllers
             return View(cars);
         }
 
+        [HttpGet]
+        [AllowAnonymous]
+        public IActionResult AllCars()
+        {
+            var cars = this.dbContext.Cars.ToList();
+            return View(cars);
+        }
+
         [HttpPost]
         [Route("cars/delete/{id}")]
         public async Task<IActionResult> Delete(int id)

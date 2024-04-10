@@ -83,7 +83,14 @@
         <div class="row">
             <div class="col-lg-7">
                 <h2 class="section-heading"><strong>Car Listings</strong></h2>
-                <p class="mb-5">Available cars for the selected time period: @String.Format("{0:dd-MM-yyyy}", Model.StartDate) - @String.Format("{0:dd-MM-yyyy}", Model.EndDate)</p>
+                @if (Model.Cars.Any())
+                {
+                    <p class="mb-5">Available cars for the selected time period: @String.Format("{0:dd-MM-yyyy}", Model.StartDate) - @String.Format("{0:dd-MM-yyyy}", Model.EndDate)</p>
+                }
+                else
+                {
+                    <p class="mb-5">No available cars for the selected time period: @String.Format("{0:dd-MM-yyyy}", Model.StartDate) - @String.Format("{0:dd-MM-yyyy}", Model.EndDate)</p>
+                }
             </div>
         </div>
 
