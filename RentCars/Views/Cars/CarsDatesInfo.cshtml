@@ -1,0 +1,70 @@
+﻿@model CarAvailableDates
+
+<div class="hero inner-page" style="background-image: url('/images/hero_1_a.jpg');">
+    <div class="container">
+        <div class="row align-items-end">
+            <div class="col-lg-5">
+                <div class="intro">
+                    <h1><strong>Available dates</strong></h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="site-section bg-light">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <h2 class="section-heading"><strong>@Model.Brand @Model.Model @Model.Year:</strong></h2>
+                <!-- Calendar -->
+                <input type="text" id="date-picker" placeholder="Select Date Range" readonly>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container text-right mt-3">
+    <button onclick="window.history.back();" class="btn btn-primary">Go Back</button>
+</div>
+
+@section Scripts {
+    <!-- Include jQuery library -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Include jQuery UI library -->
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            // Initialize Datepicker
+            $("#date-picker").datepicker({
+                dateFormat: "yy-mm-dd",
+                rangeSelect: true,
+                beforeShowDay: function (date) {
+                    var dateString = $.datepicker.formatDate("yy-mm-dd", date);
+                    // Check if the date is reserved
+        @foreach (var reservation in Model.Reservations)
+        {
+            if (dateString >= "@reservation.StartDate" && dateString <= "@reservation.EndDate")
+            {
+                // Date is reserved, return the appropriate class
+                return [true, "reserved-date"];
+            }
+        }
+                            // Date is not reserved
+                            return [true, ""];
+                }
+            });
+            // Make the Datepicker readonly
+            $("#date-picker").attr("readonly", true);
+        });
+    </script>
+
+    <style>
+        /* Style for reserved dates */
+        .reserved-date {
+            background-color: #ffcccc !important; /* Change to your desired color */
+        }
+    </style>
+}

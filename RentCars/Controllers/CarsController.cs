@@ -101,6 +101,32 @@ namespace RentCars.Controllers
         }
 
         [HttpGet]
+        [Route("cars/carsdatesinfo/{id}")]
+        [AllowAnonymous]
+        public async Task<IActionResult> CarsDatesInfo(int id)
+        {
+            var car = await this.dbContext.Cars.Include(c => c.Reservations).FirstOrDefaultAsync(c => c.Id == id);
+
+            if (car == null)
+            {
+                return NotFound();
+            }
+
+            var carModel = new CarAvailableDates
+            {
+                Brand = car.Brand,
+                Model = car.Model,
+                Year = car.Year,
+                Reservations = car.Reservations != null ? car.Reservations.ToList() : new List<Reservation>()
+            };
+
+            return View("CarsDatesInfo", carModel);
+        }
+
+
+
+
+        [HttpGet]
         [Route("cars/edit/{id}")]
         public async Task<IActionResult> Edit(int id)
         {
