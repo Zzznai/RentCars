@@ -4,10 +4,10 @@ namespace RentCars.ViewModels
 {
     public class UserSignInViewModel
     {
-        [Required]
+        [Required(ErrorMessage = "The Username field is required.")]
         public string Username { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "The Password field is required.")]
         public string Password { get; set; }
 
     }

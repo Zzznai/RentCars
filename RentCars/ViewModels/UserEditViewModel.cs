@@ -6,27 +6,28 @@ namespace RentCars.ViewModels
     {
         public string Id { get; set; }
 
-        [Required]
-        [MinLength(3)]
+        [Required(ErrorMessage = "The Username field is required.")]
+        [MinLength(3, ErrorMessage = "The Username must be at least {1} characters.")]
         public string Username { get; set; }
 
-        [Required]
-        [StringLength(50, MinimumLength = 3)]
+        [Required(ErrorMessage = "The First Name field is required.")]
+        [StringLength(50, MinimumLength = 3, ErrorMessage = "The First Name must be between {2} and {1} characters.")]
         public string FirstName { get; set; }
 
-        [Required]
-        [StringLength(50, MinimumLength = 3)]
+        [Required(ErrorMessage = "The Last Name field is required.")]
+        [StringLength(50, MinimumLength = 3, ErrorMessage = "The Last Name must be between {2} and {1} characters.")]
         public string LastName { get; set; }
 
-        [Required]
-        [RegularExpression(@"^\d{10}$")]
+        [Required(ErrorMessage = "The Unique Citizenship Number field is required.")]
+        [RegularExpression(@"^\d{10}$", ErrorMessage = "The Unique Citizenship Number must be a 10-digit number.")]
         public string UniqueCitinzenshipNumber { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "The Phone Number field is required.")]
+        [Phone]
         public string PhoneNumber { get; set; }
 
-        [Required]
-        [EmailAddress]
+        [Required(ErrorMessage = "The Email field is required.")]
+        [EmailAddress(ErrorMessage = "Invalid Email Address.")]
         public string Email { get; set; }
 
         [DataType(DataType.Password)]
