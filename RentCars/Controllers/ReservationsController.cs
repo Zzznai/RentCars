@@ -64,13 +64,27 @@ namespace RentCars.Controllers
         public async Task<IActionResult> CarReservations(int id)
         {
             var reservations = this.dbContext.Reservations
-            .Where(c => c.Car.Id==id)
+            .Where(c => c.Car.Id == id)
                 .Include(r => r.Car)
                 .Include(r => r.User)
                 .OrderBy(r => r.StartDate)
-                .ThenBy(r=>r.User.UserName)
+                .ThenBy(r => r.User.UserName)
                 .ToList();
+            return this.View(reservations);
+        }
 
+        [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
+        [HttpGet]
+        public async Task<IActionResult> UserReservatios(string id)
+        {
+            var reservations = this.dbContext.Reservations
+             .Where(r => r.User.Id == id)
+                 .Include(r => r.Car)
+                 .Include(r => r.User)
+                 .OrderBy(r => r.StartDate)
+                 .ThenBy(r => r.Car.Brand)
+                 .ThenBy(r => r.Car.Model)
+                 .ToList();
             return this.View(reservations);
         }
 
