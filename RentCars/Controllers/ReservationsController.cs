@@ -92,15 +92,31 @@ namespace RentCars.Controllers
         [HttpGet]
         public async Task<IActionResult> UserReservations(string id)
         {
-            var reservations = this.dbContext.Reservations
-             .Where(r => r.User.Id.CompareTo(id)==0)
-                 .Include(r => r.Car)
-                 .Include(r => r.User)
-                 .OrderBy(r => r.StartDate)
-                 .ThenBy(r => r.Car.Brand)
-                 .ThenBy(r => r.Car.Model)
-                 .ToList();
-            return this.View(reservations);
+            var user = await this.dbContext.Users.FirstOrDefaultAsync(u => u.Id == id);
+
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            var reservations = await this.dbContext.Reservations
+                .Where(r => r.User.Id == id)
+                .Include(r => r.Car)
+                .OrderBy(r => r.StartDate)
+                .ThenBy(r => r.Car.Brand)
+                .ThenBy(r => r.Car.Model)
+                .ToListAsync();
+
+            var viewModel = new UserRentsViewModel
+            {
+                UserId = user.Id,
+                UserName = user.UserName,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                Reservations = reservations
+            };
+
+            return View(viewModel);
         }
 
         [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
