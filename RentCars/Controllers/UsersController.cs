@@ -196,7 +196,6 @@ namespace RentCars.Controllers
                         }
                     }
                 }
-
                 return RedirectToAction("Index");
             }
             else
