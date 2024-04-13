@@ -2,6 +2,7 @@
 using CloudinaryDotNet.Actions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis;
 using Microsoft.EntityFrameworkCore;
 using RentCars.Commons;
 using RentCars.Data;
@@ -138,6 +139,10 @@ namespace RentCars.Controllers
                     return NotFound();
                 }
 
+                // Retrieve the original rental price
+                var originalRentalPricePerDay = car.RentalPricePerDay;
+
+                // Update car properties
                 car.Brand = carModel.Brand;
                 car.PassengerCapacity = carModel.PassengerCapacity;
                 car.Model = carModel.Model;
@@ -146,6 +151,24 @@ namespace RentCars.Controllers
                 car.Year = carModel.Year;
                 car.Description = carModel.Description;
 
+                // If there's a change in rental price, update reservation prices
+                if (originalRentalPricePerDay != car.RentalPricePerDay)
+                {
+                    // Fetch reservations associated with this car
+                    var reservations = await dbContext.Reservations.Where(r => r.Car.Id == car.Id).ToListAsync();
+
+                    // Update total price for each reservation
+                    foreach (var reservation in reservations)
+                    {
+                        // Calculate new total price based on the updated rental price
+                        reservation.RentalSum = car.RentalPricePerDay * (reservation.EndDate.Subtract(reservation.StartDate).Days);
+
+                        // Update reservation in database
+                        dbContext.Entry(reservation).State = EntityState.Modified;
+                    }
+                }
+
+                // Handle image upload if provided
                 if (carModel.Image != null)
                 {
                     var uploadParams = new ImageUploadParams
@@ -154,13 +177,12 @@ namespace RentCars.Controllers
                     };
 
                     var result = this.cloudinary.Upload(uploadParams);
-
                     var imageUrl = result.Url;
 
                     car.ImageUrl = imageUrl.OriginalString;
-                  
                 }
 
+                // Update car in database
                 this.dbContext.Cars.Update(car);
                 await this.dbContext.SaveChangesAsync();
 
@@ -171,6 +193,7 @@ namespace RentCars.Controllers
                 return View(carModel);
             }
         }
+
 
     }
 }
