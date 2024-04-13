@@ -4,20 +4,34 @@ using Microsoft.AspNetCore.Mvc;
 using RentCars.Commons;
 using RentCars.Models;
 using RentCars.ViewModels;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace RentCars.Controllers
 {
+    /// <summary>
+    /// Controller responsible for user authentication actions.
+    /// </summary>
     public class AuthenticationController : Controller
     {
         private readonly SignInManager<RentCarUser> signInManager;
         private readonly UserManager<RentCarUser> userManager;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AuthenticationController"/> class.
+        /// </summary>
+        /// <param name="signInManager">The SignInManager for managing sign-in operations.</param>
+        /// <param name="userManager">The UserManager for managing user operations.</param>
         public AuthenticationController(SignInManager<RentCarUser> signInManager, UserManager<RentCarUser> userManager)
         {
             this.signInManager = signInManager;
             this.userManager = userManager;
         }
 
+        /// <summary>
+        /// Displays the sign-in page.
+        /// </summary>
+        /// <param name="returnUrl">The URL to redirect to after successful sign-in.</param>
         [HttpGet]
         [AllowAnonymous]
         [Route("sign-in")]
@@ -28,6 +42,11 @@ namespace RentCars.Controllers
             return User.Identity.IsAuthenticated ? this.LocalRedirect(returnUrl) : this.View();
         }
 
+        /// <summary>
+        /// Handles sign-in form submission.
+        /// </summary>
+        /// <param name="userModel">The sign-in form data.</param>
+        /// <param name="returnUrl">The URL to redirect to after successful sign-in.</param>
         [HttpPost]
         [AllowAnonymous]
         [Route("sign-in")]
@@ -54,10 +73,13 @@ namespace RentCars.Controllers
                 }
             }
 
-
             return this.View(userModel);
         }
 
+        /// <summary>
+        /// Displays the sign-up page.
+        /// </summary>
+        /// <param name="returnUrl">The URL to redirect to after successful sign-up.</param>
         [HttpGet]
         [AllowAnonymous]
         [Route("sign-up")]
@@ -68,6 +90,11 @@ namespace RentCars.Controllers
             return User.Identity.IsAuthenticated ? this.LocalRedirect(returnUrl) : this.View();
         }
 
+        /// <summary>
+        /// Handles sign-up form submission.
+        /// </summary>
+        /// <param name="userModel">The sign-up form data.</param>
+        /// <param name="returnUrl">The URL to redirect to after successful sign-up.</param>
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
@@ -83,7 +110,7 @@ namespace RentCars.Controllers
 
             if (ModelState.IsValid)
             {
-                if (userManager.Users.Any(u=>u.UniqueCitinzenshipNumber==userModel.UniqueCitinzenshipNumber))
+                if (userManager.Users.Any(u => u.UniqueCitinzenshipNumber == userModel.UniqueCitinzenshipNumber))
                 {
                     ModelState.AddModelError(string.Empty, "A user with the same EGN already exists.");
                     return View(userModel);
@@ -109,7 +136,7 @@ namespace RentCars.Controllers
 
                 if (result.Succeeded)
                 {
-                    await userManager.AddToRoleAsync(user,GlobalConstants.UserRoleName);
+                    await userManager.AddToRoleAsync(user, GlobalConstants.UserRoleName);
                     return RedirectToAction("SignIn", "Authentication");
                 }
                 else
@@ -125,7 +152,9 @@ namespace RentCars.Controllers
             return View(userModel);
         }
 
-
+        /// <summary>
+        /// Logs the user out.
+        /// </summary>
         [HttpPost]
         [AllowAnonymous]
         [Route("logout")]

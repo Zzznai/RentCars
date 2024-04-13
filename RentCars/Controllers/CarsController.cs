@@ -11,6 +11,9 @@ using RentCars.ViewModels;
 
 namespace RentCars.Controllers
 {
+    /// <summary>
+    /// Controller responsible for managing cars.
+    /// </summary>
     [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
     public class CarsController : Controller
     {
@@ -18,6 +21,11 @@ namespace RentCars.Controllers
         private readonly CloudinarySettings cloudinarySettings;
         private readonly Cloudinary cloudinary;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CarsController"/> class.
+        /// </summary>
+        /// <param name="dbContext">The database context for RentCars.</param>
+        /// <param name="configuration">The configuration.</param>
         public CarsController(RentCarDbContext dbContext, IConfiguration configuration)
         {
             this.dbContext = dbContext;
@@ -25,12 +33,18 @@ namespace RentCars.Controllers
             this.cloudinary = new Cloudinary(new Account(cloudinarySettings.CloudName, cloudinarySettings.ApiKey, cloudinarySettings.ApiSecret));
         }
 
+        /// <summary>
+        /// Displays the form for creating a new car.
+        /// </summary>
         public IActionResult Create()
         {
             var car = new CarCreateViewModel();
             return View(car);
         }
 
+        /// <summary>
+        /// Handles the creation of a new car.
+        /// </summary>
         [HttpPost]
         public async Task<IActionResult> CreateAsync(CarCreateViewModel carModel)
         {
@@ -43,7 +57,7 @@ namespace RentCars.Controllers
             {
                 var uploadParams = new ImageUploadParams
                 {
-                    File = new FileDescription(carModel.Image.FileName, carModel.Image.OpenReadStream()),   
+                    File = new FileDescription(carModel.Image.FileName, carModel.Image.OpenReadStream()),
                 };
 
                 var result = this.cloudinary.Upload(uploadParams);
@@ -69,13 +83,19 @@ namespace RentCars.Controllers
             return RedirectToAction("Index");
         }
 
+        /// <summary>
+        /// Displays the list of cars.
+        /// </summary>
         [HttpGet]
         public IActionResult Index()
         {
-            var cars=this.dbContext.Cars.ToList();
+            var cars = this.dbContext.Cars.ToList();
             return View(cars);
         }
 
+        /// <summary>
+        /// Displays the list of all cars (accessible to all users).
+        /// </summary>
         [HttpGet]
         [AllowAnonymous]
         public IActionResult AllCars()
@@ -84,6 +104,9 @@ namespace RentCars.Controllers
             return View(cars);
         }
 
+        /// <summary>
+        /// Deletes a car.
+        /// </summary>
         [HttpPost]
         [Route("cars/delete/{id}")]
         public async Task<IActionResult> Delete(int id)
@@ -101,6 +124,9 @@ namespace RentCars.Controllers
             return RedirectToAction("Index");
         }
 
+        /// <summary>
+        /// Displays the form for editing a car.
+        /// </summary>
         [HttpGet]
         [Route("cars/edit/{id}")]
         public async Task<IActionResult> Edit(int id)
@@ -126,6 +152,9 @@ namespace RentCars.Controllers
             return View(carModel);
         }
 
+        /// <summary>
+        /// Handles the editing of a car.
+        /// </summary>
         [HttpPost]
         [Route("cars/edit/{id}")]
         public async Task<IActionResult> Edit(int id, CarEditViewModel carModel)
@@ -193,7 +222,5 @@ namespace RentCars.Controllers
                 return View(carModel);
             }
         }
-
-
     }
 }

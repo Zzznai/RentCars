@@ -7,23 +7,35 @@ using RentCars.ViewModels;
 
 namespace RentCars.Controllers
 {
-    //done
+    /// <summary>
+    /// Controller responsible for managing user-related actions.
+    /// </summary>
     [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
     public class UsersController : Controller
     {
         private readonly UserManager<RentCarUser> userManager;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="UsersController"/> class.
+        /// </summary>
+        /// <param name="userManager">The user manager service.</param>
         public UsersController(UserManager<RentCarUser> userManager)
         {
             this.userManager = userManager;
         }
 
+        /// <summary>
+        /// Displays a list of users.
+        /// </summary>
         public async Task<IActionResult> Index()
         {
             var users = (await this.userManager.GetUsersInRoleAsync(GlobalConstants.UserRoleName)).ToList();
             return View(users);
         }
 
+        /// <summary>
+        /// Deletes a user.
+        /// </summary>
         [HttpPost]
         [Route("/users/delete/{id}")]
         public async Task<IActionResult> Delete(string id)
@@ -53,12 +65,18 @@ namespace RentCars.Controllers
             }
         }
 
+        /// <summary>
+        /// Redirects to Create
+        /// </summary>
         [HttpPost]
         public async Task<IActionResult> Delete()
         {
             return RedirectToAction("Create");
         }
 
+        /// <summary>
+        /// Displays the user creation view.
+        /// </summary>
         [HttpGet]
         public async Task<IActionResult> Create()
         {
@@ -66,7 +84,9 @@ namespace RentCars.Controllers
             return View(userSignUpViewModel);
         }
 
-
+        /// <summary>
+        /// Handles user creation.
+        /// </summary>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(UserSignUpViewModel userModel)
@@ -119,6 +139,9 @@ namespace RentCars.Controllers
             return View(userModel);
         }
 
+        /// <summary>
+        /// Displays the user edit view.
+        /// </summary>
         [HttpGet]
         [Route("/edit/{id}")]
         public async Task<IActionResult> Edit(string id)
@@ -144,6 +167,9 @@ namespace RentCars.Controllers
             return View(userModel);
         }
 
+        /// <summary>
+        /// Handles user editing.
+        /// </summary>
         [HttpPost]
         [Route("/edit/{id}")]
         public async Task<IActionResult> Edit(string id, UserEditViewModel userModel)

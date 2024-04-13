@@ -3,6 +3,9 @@ using RentCars.Commons.Enums;
 
 namespace RentCarsTests.Enums
 {
+    /// <summary>
+    /// Unit tests for the EngineType enum
+    /// </summary>
     [TestClass]
     public class EngineTypeTests
     {

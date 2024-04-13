@@ -6,6 +6,9 @@ using System.ComponentModel.DataAnnotations;
 
 namespace RentCarsTests.ViewModels
 {
+    /// <summary>
+    /// Unit tests for the UserEditViewModel
+    /// </summary>
     [TestClass]
     public class UserEditViewModelTests
     {

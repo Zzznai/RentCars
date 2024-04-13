@@ -5,20 +5,30 @@ using RentCars.Commons;
 using RentCars.Data;
 using RentCars.Models;
 using RentCars.ViewModels;
+using System.Threading.Tasks;
 
 namespace RentCars.Controllers
 {
-    //tests done for this 
-
+    /// <summary>
+    /// Controller responsible for managing user profiles.
+    /// </summary>
     [Authorize(Roles = GlobalConstants.UserRoleName)]
     public class ProfileController : Controller
     {
         private readonly UserManager<RentCarUser> userManager;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ProfileController"/> class.
+        /// </summary>
+        /// <param name="userManager">The UserManager for managing user operations.</param>
         public ProfileController(UserManager<RentCarUser> userManager)
         {
             this.userManager = userManager;
         }
 
+        /// <summary>
+        /// Displays the user's profile information.
+        /// </summary>
         [HttpGet]
         public async Task<IActionResult> Index()
         {
@@ -32,7 +42,7 @@ namespace RentCars.Controllers
 
             var userProfileModel = new UserEditViewModel
             {
-                Id=user.Id,
+                Id = user.Id,
                 Username = user.UserName,
                 FirstName = user.FirstName,
                 LastName = user.LastName,
@@ -44,6 +54,10 @@ namespace RentCars.Controllers
             return View(userProfileModel);
         }
 
+        /// <summary>
+        /// Handles updating the user's profile information.
+        /// </summary>
+        /// <param name="userProfileModel">The updated user profile data.</param>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Index(UserEditViewModel userProfileModel)
@@ -117,8 +131,5 @@ namespace RentCars.Controllers
             // Return the view with updated user profile model
             return View(userProfileModel);
         }
-
-
     }
 }
-

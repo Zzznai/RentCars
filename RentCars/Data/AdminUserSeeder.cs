@@ -2,11 +2,20 @@
 using Microsoft.EntityFrameworkCore;
 using RentCars.Commons;
 using RentCars.Models;
+using System;
+using System.Threading.Tasks;
 
 namespace RentCars.Data
 {
+    /// <summary>
+    /// Provides methods for seeding the database with admin user and roles.
+    /// </summary>
     public class AdminUserSeeder
     {
+        /// <summary>
+        /// Initializes the roles required for the application.
+        /// </summary>
+        /// <param name="serviceProvider">The service provider.</param>
         public static async Task Initialize(IServiceProvider serviceProvider)
         {
             using (var dbContext = new RentCarDbContext(serviceProvider.GetRequiredService<DbContextOptions<RentCarDbContext>>()))
@@ -25,6 +34,10 @@ namespace RentCars.Data
             }
         }
 
+        /// <summary>
+        /// Adds an admin user to the database.
+        /// </summary>
+        /// <param name="serviceProvider">The service provider.</param>
         public static async Task AddAdminUser(IServiceProvider serviceProvider)
         {
             using (var dbContext = new RentCarDbContext(serviceProvider.GetRequiredService<DbContextOptions<RentCarDbContext>>()))

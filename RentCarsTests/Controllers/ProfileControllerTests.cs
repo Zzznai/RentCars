@@ -15,6 +15,9 @@ using Assert = Xunit.Assert;
 
 namespace RentCars.Controllers
 {
+    /// <summary>
+    /// Unit tests for the ProfileController
+    /// </summary>
     public class ProfileControllerTests
     {
         private readonly Faker<RentCarUser> userFaker;

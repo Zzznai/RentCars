@@ -7,7 +7,9 @@ using RentCars.Commons.Enums;
 
 namespace RentCarsTests.Models
 {
-   
+    /// <summary>
+    /// Unit tests for the Reservation model
+    /// </summary>
     [TestClass]
     public class ReservationTests
     {

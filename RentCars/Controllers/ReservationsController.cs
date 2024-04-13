@@ -9,17 +9,26 @@ using RentCars.ViewModels;
 
 namespace RentCars.Controllers
 {
+    /// <summary>
+    /// Controller responsible for managing reservations.
+    /// </summary>
     [Authorize]
     public class ReservationsController : Controller
     {
-
         private readonly RentCarDbContext dbContext;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ReservationsController"/> class.
+        /// </summary>
+        /// <param name="dbContext">The database context for RentCars.</param>
         public ReservationsController(RentCarDbContext dbContext)
         {
             this.dbContext = dbContext;
         }
 
+        /// <summary>
+        /// Handles the reservation of a car.
+        /// </summary>
         [HttpPost]
         [Route("reservations/reserve/{carId}")]
         public async Task<IActionResult> Reserve(int carId, ReservationCreateViewModel reservationModel)
@@ -46,19 +55,26 @@ namespace RentCars.Controllers
             return RedirectToAction("Index");
         }
 
+        /// <summary>
+        /// Displays the reservations of the currently logged-in user.
+        /// </summary>
         [HttpGet]
         public async Task<IActionResult> Index()
         {
             var reservations = this.dbContext.Reservations
-            .Where(r => r.User.UserName.Equals(User.Identity.Name))
+                .Where(r => r.User.UserName.Equals(User.Identity.Name))
                 .Include(r => r.Car)
                 .Include(r => r.User)
                 .OrderBy(r => r.StartDate)
                 .ThenBy(r => r.Car.Brand)
                 .ToList();
+
             return this.View(reservations);
         }
 
+        /// <summary>
+        /// Displays the reservations of a specific car (accessible only to administrators).
+        /// </summary>
         [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
         [HttpGet]
         public async Task<IActionResult> CarReservations(int id)
@@ -88,6 +104,9 @@ namespace RentCars.Controllers
             return View(viewModel);
         }
 
+        /// <summary>
+        /// Displays the reservations of a specific user (accessible only to administrators).
+        /// </summary>
         [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
         [HttpGet]
         public async Task<IActionResult> UserReservations(string id)
@@ -119,6 +138,9 @@ namespace RentCars.Controllers
             return View(viewModel);
         }
 
+        /// <summary>
+        /// Updates the status of a reservation (accessible only to administrators).
+        /// </summary>
         [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
         [HttpPost]
         [Route("reservations/updateStatus/{reservationsId}")]

@@ -3,12 +3,16 @@ using RentCars.Commons.Enums;
 
 namespace RentCarsTests.Enums
 {
+    /// <summary>
+    /// Unit tests for the ReservationStatus enum
+    /// </summary>
     [TestClass]
     public class ReservationStatusTests
     {
         [TestMethod]
         public void ReservationStatus_Enum_Should_Have_Correct_Values()
         {
+
             // Arrange
 
             // Act

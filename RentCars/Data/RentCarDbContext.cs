@@ -7,21 +7,44 @@ using System.Security.Claims;
 
 namespace RentCars.Data
 {
+    /// <summary>
+    /// Represents the database context for the RentCars application.
+    /// </summary>
     public class RentCarDbContext : IdentityDbContext<RentCarUser>
     {
-        public RentCarDbContext(DbContextOptions options) : base(options) 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RentCarDbContext"/> class.
+        /// </summary>
+        /// <param name="options">The options for this context.</param>
+        public RentCarDbContext(DbContextOptions options) : base(options)
         {
-            
+
         }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RentCarDbContext"/> class.
+        /// </summary>
         public RentCarDbContext()
         {
         }
 
+        /// <summary>
+        /// Gets or sets the DbSet for cars.
+        /// </summary>
         public DbSet<Car> Cars { get; set; }
+
+        /// <summary>
+        /// Gets or sets the DbSet for reservations.
+        /// </summary>
         public DbSet<Reservation> Reservations { get; set; }
 
+        /// <summary>
+        /// Configures the model for the database.
+        /// </summary>
+        /// <param name="builder">The model builder instance.</param>
         protected override void OnModelCreating(ModelBuilder builder)
         {
+            // Convert enums to strings for storage in the database
             builder
                 .Entity<Car>()
                 .Property(c => c.EngineType)
@@ -32,6 +55,7 @@ namespace RentCars.Data
                 .Property(r => r.Status)
                 .HasConversion(e => e.ToString(), e => (ReservationStatus)Enum.Parse(typeof(ReservationStatus), e));
 
+            // Ensure unique constraints for email, username, and citizenship number
             builder.Entity<RentCarUser>()
                 .HasIndex(u => u.Email)
                 .IsUnique();
@@ -42,8 +66,9 @@ namespace RentCars.Data
 
             builder.Entity<RentCarUser>()
                 .HasIndex(u => u.UniqueCitinzenshipNumber)
-            .IsUnique();
+                .IsUnique();
 
+            // Configure precision and scale for rental price per day and rental sum properties
             builder.Entity<Car>().Property(car => car.RentalPricePerDay).HasPrecision(8, 2);
 
             builder.Entity<Reservation>().Property(r => r.RentalSum).HasPrecision(8, 2);

@@ -14,12 +14,15 @@ using Assert = Xunit.Assert;
 
 namespace RentCarsTests.Controllers
 {
-    public class UsersControllerTests
+    /// <summary>
+    /// Unit tests for the UserController
+    /// </summary>
+    public class UserControllerTests
     {
         private readonly Mock<UserManager<RentCarUser>> userManagerMock;
         private readonly Faker<RentCarUser> userFaker;
 
-        public UsersControllerTests()
+        public UserControllerTests()
         {
             userManagerMock = new Mock<UserManager<RentCarUser>>(Mock.Of<IUserStore<RentCarUser>>(), null, null, null, null, null, null, null, null);
 
