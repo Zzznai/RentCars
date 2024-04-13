@@ -30,7 +30,6 @@ namespace RentCars.ViewModels
         public string Email { get; set; }
 
         [Required(ErrorMessage = "The Password field is required.")]
-        [Compare("ConfirmPassword", ErrorMessage = "Password must match the Confirm Password.")]
         public string Password { get; set; }
 
         [Required(ErrorMessage = "The Confirm Password field is required.")]

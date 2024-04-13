@@ -30,10 +30,11 @@ namespace RentCars.Models
         [Range(1, 16, ErrorMessage = "The Passenger Capacity must be between {1} and {2}.")]
         public int PassengerCapacity { get; set; }
 
+        [Required(ErrorMessage = "The Description field is required.")]
         public string Description { get; set; }
 
         [Required(ErrorMessage = "The Rental Price Per Day field is required.")]
-        [Range(10, double.MaxValue, ErrorMessage = "The Rental Price Per Day must be between {1} and {2}.")]
+        [Range(10, 10000, ErrorMessage = "The Rental Price Per Day must be between {1} and {2}.")]
         public decimal RentalPricePerDay { get; set; }
 
         public List<Reservation> Reservations { get; set; }

@@ -69,7 +69,7 @@ namespace RentCars.Controllers
             return View(searchModel);
         }
 
-        private List<Car> GetAllAvailableCars(DateTime searchStartDate,  DateTime searchEndDate)
+        public List<Car> GetAllAvailableCars(DateTime searchStartDate,  DateTime searchEndDate)
         {
             var carsWithNoReservations = rentCarDbContext.Cars
          .Where(car => !car.Reservations.Any(r =>

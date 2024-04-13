@@ -31,7 +31,7 @@ namespace RentCars.ViewModels
         public string Description { get; set; }
 
         [Required(ErrorMessage = "The Rental Price Per Day field is required.")]
-        [Range(10, double.MaxValue, ErrorMessage = "The Rental Price Per Day must be at least {1}.")]
+        [Range(10, 10000, ErrorMessage = "The Rental Price Per Day must be at least {1}.")]
         public decimal RentalPricePerDay { get; set; }
     }
 }

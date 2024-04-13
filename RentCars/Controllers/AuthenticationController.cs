@@ -67,6 +67,7 @@ namespace RentCars.Controllers
 
             return User.Identity.IsAuthenticated ? this.LocalRedirect(returnUrl) : this.View();
         }
+
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
